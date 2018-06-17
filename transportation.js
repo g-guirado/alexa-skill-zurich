@@ -38,10 +38,12 @@ function getNextPublicTransportation(departureStation, arrivalStation, timeBuffe
   return axios(`http://transport.opendata.ch/v1/connections?from=${departureStation}&to=${arrivalStation}&direct=1&fields[]=connections/from/departure&fields[]=connections/from/platform&limit=10`)
   .then(opendataResults => {
     console.log(`Number of fetched connections: ${opendataResults.data.connections.length}`);
+
+    // Find trains I can reach (i.e. check timeBufferInMin)
     const nextReachableTrains = _.filter(opendataResults.data.connections, t => {
       const departure = new Date(t.from.departure);
       const whenICanBeThere = new Date();
-      whenICanBeThere.setMinutes(whenICanBeThere.getMinutes() + timeBufferInMin); // Give me some time to reach the station
+      whenICanBeThere.setMinutes(whenICanBeThere.getMinutes() + timeBufferInMin);
 
       return departure.getTime() >= whenICanBeThere.getTime();
     } );
@@ -49,6 +51,7 @@ function getNextPublicTransportation(departureStation, arrivalStation, timeBuffe
     const firstReachableTrains = _.slice(nextReachableTrains, 0, 3); // only keep the next 3 reachable trains
     console.log(`Number of reachable connections: ${nextReachableTrains.length}`);
 
+    // For every train left, compute left time and create corresponding text for Alexa
     var text = `Next ${transitName}: `;
     _.forEach(firstReachableTrains, t => {
       const diffMs = new Date(t.from.departure).getTime() - new Date().getTime();
