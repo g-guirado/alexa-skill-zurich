@@ -2,6 +2,13 @@ const Alexa = require('alexa-sdk');
 const transportation = require('./transportation');
 
 const handlers = {
+  'BikeIntent': function () {
+    return transportation.checkAvailableBikes().then(text =>  {
+      console.log(text);
+      this.emit(':tell', text);
+    });
+  },
+
   'TrainIntent': function () {
     return transportation.getNextTrains().then(text =>  {
       console.log(text);

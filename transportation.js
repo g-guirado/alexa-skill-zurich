@@ -1,7 +1,38 @@
 const axios = require('axios');
 const _ = require('lodash');
 
+function checkAvailableBikes() {
+  const publibikeStation = '149';
+  // The API is at https://api.publibike.ch/v1/public/stations/<station>
+  // WARNING: Publibike forbids requests coming from the US; therefore the Cloud Functions cannot
+  // reach it. A proxy must be used.
+  const publibikeApi = `https://api.publibike.ch/v1/public/stations/${publibikeStation}/`;
 
+  return axios(publibikeApi)
+  .then(publibikeResults => {
+    console.log(publibikeResults);
+    const bikes = publibikeResults.data.vehicles;
+    if (bikes === undefined || bikes.length === 0) {
+      return 'There are no available bikes';
+    }
+
+    var nBikes = 0;
+    var nEbikes = 0;
+    _.forEach(bikes, b => {
+      if (b.type.id === 1) {
+        ++nBikes;
+      }
+      else if (b.type.id === 2) {
+        ++nEbikes;
+      }
+    });
+    return `There are ${nEbikes} E-Bikes and ${nBikes} normal bikes waiting.`;
+  })
+  .catch(e => {
+    console.log(e.response);
+    return 'Publibike returned an error!';
+  });
+}
 
 function getNextPublicTransportation(departureStation, arrivalStation, timeBufferInMin, transitName) {
   return axios(`http://transport.opendata.ch/v1/connections?from=${departureStation}&to=${arrivalStation}&direct=1&fields[]=connections/from/departure&fields[]=connections/from/platform&limit=10`)
@@ -48,6 +79,7 @@ function getNextTrams() {
 }
 
 module.exports = {
+  checkAvailableBikes,
   getNextTrains,
   getNextTrams
 }
