@@ -1,0 +1,16 @@
+{
+  "name": "alexa-home",
+  "version": "1.0.0",
+  "description": "My own Alexa skill for daily use",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guillaume Guirado",
+  "license": "ISC",
+  "dependencies": {
+    "alexa-sdk": "^1.0.25",
+    "axios": "^0.18.0",
+    "lodash": "^4.17.10"
+  }
+}
