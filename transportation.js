@@ -26,6 +26,9 @@ function checkAvailableBikes() {
         ++nEbikes;
       }
     });
+    if (nEbikes === 0) {
+      return `There are only normal bikes waiting: ${nBikes} of them.`;
+    }
     return `There are ${nEbikes} E-Bikes and ${nBikes} normal bikes waiting.`;
   })
   .catch(e => {
