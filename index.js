@@ -1,7 +1,17 @@
 const Alexa = require('alexa-sdk');
 const transportation = require('./transportation');
+const movies = require('./movie');
 
 const handlers = {
+  // Movie
+  'MovieIntent': function () {
+    return movies.getMovies().then(text => {
+      console.log(text);
+      this.emit(':tell', text);
+    });
+  },
+
+  // Transportation
   'BikeIntent': function () {
     return transportation.checkAvailableBikes().then(text =>  {
       console.log(text);
