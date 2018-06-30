@@ -38,7 +38,7 @@ function checkAvailableBikes() {
 }
 
 function getNextPublicTransportation(departureStation, arrivalStation, timeBufferInMin, transitName) {
-  return axios(`http://transport.opendata.ch/v1/connections?from=${departureStation}&to=${arrivalStation}&direct=1&fields[]=connections/from/departure&fields[]=connections/from/platform&limit=10`)
+  return axios(`https://transport.opendata.ch/v1/connections?from=${departureStation}&to=${arrivalStation}&direct=1&fields[]=connections/from/departure&fields[]=connections/from/platform&limit=10`)
   .then(opendataResults => {
     console.log(`Number of fetched connections: ${opendataResults.data.connections.length}`);
 
