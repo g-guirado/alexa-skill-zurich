@@ -3,6 +3,15 @@
 My own Alexa skills I can use daily.
 I run them using Google Cloud Functions.
 
+## Cinema
+### Tell 'me' about movies
+Find the movie showing today at Abaton movie theater.
+
+Fetch data from https://www.kitag.com.
+
+Sample answer:
+`Found 14 movies at Abaton: AVENGERS: INFINITY WAR, I FEEL PRETTY, JURASSIC WORLD: DAS GEFALLENE KÖNIGREICH, MEIN FREUND, DIE GIRAFFE, LILIANE SUSEWIND - EIN TIERISCHES ABENTEUER, LOVE, SIMON, SOLO: A STAR WARS STORY, PETER HASE, DEADPOOL 2, LETZTENDLICH SIND WIR DEM UNIVERSUM EGAL - EVERY DAY, OCEAN'S 8, BLUMHOUSE PRÄSENTIERT: WAHRHEIT ODER PFLICHT, JIM KNOPF UND LUKAS DER LOKOMOTIVFÜHRER, LUIS UND DIE ALIENS`
+
 ## Public transportation
 Supported utterances:
 ### Tell 'me' about bikes
