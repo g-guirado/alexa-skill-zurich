@@ -15,11 +15,9 @@ function getMovies() {
     const todayMovies = res.data[date];
     const matchingMovies = [];
     for (movieName in todayMovies) {
-      console.log(`Processing movie ${movieName}`);
       const movieDetails = todayMovies[movieName];
 
       if (movieDetails.movie && _.includes(movieDetails.cinemas, 'abaton')) { // Interested in movies at Abaton only
-        console.log(`Matching movie: ${movieName}`)
         matchingMovies.push(movieName);
       }
     }

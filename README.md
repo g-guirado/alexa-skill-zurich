@@ -5,7 +5,7 @@ I run them using Google Cloud Functions.
 
 ## Cinema
 ### Tell 'me' about movies
-Find the movie showing today at Abaton movie theater.
+Find the movies showing today at my local movie theater.
 
 Fetch data from https://www.kitag.com.
 
