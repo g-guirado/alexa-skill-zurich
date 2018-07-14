@@ -12,6 +12,15 @@ Fetch data from https://www.kitag.com.
 Sample answer:
 `Found 14 movies at Abaton: AVENGERS: INFINITY WAR, I FEEL PRETTY, JURASSIC WORLD: DAS GEFALLENE KÖNIGREICH, MEIN FREUND, DIE GIRAFFE, LILIANE SUSEWIND - EIN TIERISCHES ABENTEUER, LOVE, SIMON, SOLO: A STAR WARS STORY, PETER HASE, DEADPOOL 2, LETZTENDLICH SIND WIR DEM UNIVERSUM EGAL - EVERY DAY, OCEAN'S 8, BLUMHOUSE PRÄSENTIERT: WAHRHEIT ODER PFLICHT, JIM KNOPF UND LUKAS DER LOKOMOTIVFÜHRER, LUIS UND DIE ALIENS`
 
+## Money
+### Tell 'me' about exchange rates
+Current exchange rates.
+
+Fetch data from https://free.currencyconverterapi.com/.
+
+Sample answer:
+`One franc is 0.85 euros or 0.99 dollars `
+
 ## Public transportation
 Supported utterances:
 ### Tell 'me' about bikes

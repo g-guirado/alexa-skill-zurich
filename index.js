@@ -1,8 +1,17 @@
 const Alexa = require('alexa-sdk');
 const transportation = require('./transportation');
+const money = require('./money');
 const movies = require('./movie');
 
 const handlers = {
+  // Money
+  'ExchangeRateIntent': function() {
+    return money.getExchangeRates().then(text => {
+      console.log(text);
+      this.emit(':tell', text);
+    });
+  },
+
   // Movie
   'MovieIntent': function () {
     return movies.getMovies().then(text => {
