@@ -23,7 +23,7 @@ Sample answer:
 `There are 4 E-Bikes and 6 normal bikes waiting.`
 
 ### Tell 'me' about trains
-The next trains to go to Zurich HB. Trains departing within the next few minutes -and thus not reachable- are discarded.
+The next trains to Zurich HB. Trains departing within the next few minutes -and thus not reachable- are discarded.
 
 Fetch data from https://transport.opendata.ch/docs.html API.
 
