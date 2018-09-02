@@ -4,8 +4,6 @@ const _ = require('lodash');
 function checkAvailableBikes() {
   const publibikeStation = '149';
   // The API is at https://api.publibike.ch/v1/public/stations/<station>
-  // WARNING: Publibike forbids requests coming from the US; therefore the Cloud Functions cannot
-  // reach it. A proxy must be used.
   const publibikeApi = `https://api.publibike.ch/v1/public/stations/${publibikeStation}/`;
 
   return axios(publibikeApi)
