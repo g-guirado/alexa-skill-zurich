@@ -1,49 +1,90 @@
-const Alexa = require('alexa-sdk');
+const Alexa = require('ask-sdk');
 const transportation = require('./transportation');
 const money = require('./money');
 const movies = require('./movie');
 
-const handlers = {
-  // Money
-  'ExchangeRateIntent': function() {
+const ExchangeRateIntent = {
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ExchangeRateIntent';
+  },
+  handle(handlerInput) {
     return money.getExchangeRates().then(text => {
       console.log(text);
-      this.emit(':tell', text);
-    });
-  },
+      return handlerInput.responseBuilder
+      .speak(text);
+    })
+  }
+}
 
-  // Movie
-  'MovieIntent': function () {
+const MovieIntent = {
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'MovieIntent';
+  },
+  handle(handlerInput) {
     return movies.getMovies().then(text => {
       console.log(text);
-      this.emit(':tell', text);
-    });
-  },
+      return handlerInput.responseBuilder
+      .speak(text)
+      .getResponse();
+    })
+  }
+}
 
-  // Transportation
-  'BikeIntent': function () {
+const BikeIntent = {
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'BikeIntent';
+  },
+  handle(handlerInput) {
     return transportation.checkAvailableBikes().then(text =>  {
       console.log(text);
-      this.emit(':tell', text);
-    });
-  },
+      return handlerInput.responseBuilder
+      .speak(text)
+      .getResponse();
+    })
+  }
+}
 
-  'TrainIntent': function () {
+const TrainIntent = {
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'TrainIntent';
+  },
+  handle(handlerInput) {
     return transportation.getNextTrains().then(text =>  {
       console.log(text);
-      this.emit(':tell', text);
-    });
-  },
+      return handlerInput.responseBuilder
+      .speak(text)
+      .getResponse();
+    })
+  }
+}
 
-  'TramIntent': function () {
+const TramIntent = {
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'TramIntent';
+  },
+  handle(handlerInput) {
     return transportation.getNextTrams().then(text =>  {
       console.log(text);
-      this.emit(':tell', text);
-    });
-  },
+      return handlerInput.responseBuilder
+      .speak(text)
+      .getResponse();
+    })
+  }
+}
 
-  'Unhandled': function () {
-    this.emit(':tell', 'Bug - this intent is unhandled.');
+const ErrorHandler = {
+  canHandle() {
+      return true;
+  },
+  handle(handlerInput, error) {
+      return handlerInput.responseBuilder
+          .speak('Bug - this intent is unhandled.')
+          .getResponse();
   }
 };
 
@@ -54,22 +95,11 @@ const handlers = {
  * @param {!Object} req Cloud Function request context.
  * @param {!Object} res Cloud Function response context.
  */
-exports.alexaSkill = (req, res) => {
-  console.log(req);
-
-  const context = {
-    fail: () => {
-      // Simply fail with internal server error
-      res.sendStatus(500);
-    },
-    succeed: data => {
-      console.log(data)
-      res.send(data);
-    }
-  };
-
-  // Initialize alexa sdk
-  const alexa = Alexa.handler(req.body, context);
-  alexa.registerHandlers(handlers);
-  alexa.execute();
-};
+exports.alexaSkill = Alexa.SkillBuilders.custom()
+    .addRequestHandlers(ExchangeRateIntent,
+      MovieIntent,
+      BikeIntent,
+      TrainIntent,
+      TramIntent)
+    .addErrorHandler(ErrorHandler)
+    .lambda();
