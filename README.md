@@ -46,3 +46,9 @@ Fetch data from https://transport.opendata.ch/docs.html API.
 
 Sample answer:
 `Next trams: in 7 minutes, in 17 minutes, in 27 minutes`
+
+## How to test
+1. Run ngrok: `ngrok http 3001`
+2. In Amazon developer console, change endpoint to the ngrok one
+3. Run code locally: `yarn debug`
+4. Send events via the dev console

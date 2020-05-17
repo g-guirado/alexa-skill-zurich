@@ -4,6 +4,7 @@
   "description": "My own Alexa skill for daily use",
   "main": "index.js",
   "scripts": {
+    "debug": "node local-debugger.js --portNumber 3001 --skillEntryFile ./index.js --lambdaHandler alexaSkill",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Guillaume Guirado",
