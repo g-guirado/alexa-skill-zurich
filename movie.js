@@ -2,7 +2,7 @@ const axios = require('axios');
 const _ = require('lodash');
 const dateFormat = require('dateformat');
 
-function getMovies() {
+async function getMovies() {
   const now = new Date();
   const date = dateFormat(now, "yyyymmdd");
 
@@ -10,7 +10,8 @@ function getMovies() {
 
   console.log(`Fetching ${url}`);
 
-  return axios(url).then(res => {
+  try {
+    const res = await axios(url)
     console.log(res.data)
     const todayMovies = res.data[date];
     const matchingMovies = [];
@@ -31,11 +32,11 @@ function getMovies() {
       fullText += `${m}; `;
     });
     return `Found ${matchingMovies.length} movies at Abaton: ${fullText}`;
-  }).catch(e => {
+  } catch(e) {
     console.log('Got an exception :-(');
     console.log(e);
     console.log(e.response);
-  });
+  }
 }
 
 module.exports = {

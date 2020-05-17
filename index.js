@@ -8,12 +8,11 @@ const ExchangeRateIntent = {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
         && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ExchangeRateIntent';
   },
-  handle(handlerInput) {
-    return money.getExchangeRates().then(text => {
-      console.log(text);
+  async handle(handlerInput) {
+    const text = await money.getExchangeRates();
+    console.log(text);
       return handlerInput.responseBuilder
       .speak(text);
-    })
   }
 }
 
@@ -22,13 +21,12 @@ const MovieIntent = {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
         && Alexa.getIntentName(handlerInput.requestEnvelope) === 'MovieIntent';
   },
-  handle(handlerInput) {
-    return movies.getMovies().then(text => {
-      console.log(text);
-      return handlerInput.responseBuilder
+  async handle(handlerInput) {
+    const text = await movies.getMovies();
+    console.log(text);
+    return handlerInput.responseBuilder
       .speak(text)
       .getResponse();
-    })
   }
 }
 
@@ -37,13 +35,12 @@ const BikeIntent = {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
         && Alexa.getIntentName(handlerInput.requestEnvelope) === 'BikeIntent';
   },
-  handle(handlerInput) {
-    return transportation.checkAvailableBikes().then(text =>  {
-      console.log(text);
-      return handlerInput.responseBuilder
+  async handle(handlerInput) {
+    const text = await transportation.checkAvailableBikes();
+    console.log(text);
+    return handlerInput.responseBuilder
       .speak(text)
       .getResponse();
-    })
   }
 }
 
@@ -52,13 +49,12 @@ const TrainIntent = {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
         && Alexa.getIntentName(handlerInput.requestEnvelope) === 'TrainIntent';
   },
-  handle(handlerInput) {
-    return transportation.getNextTrains().then(text =>  {
-      console.log(text);
-      return handlerInput.responseBuilder
+  async handle(handlerInput) {
+    const text = await transportation.getNextTrains();
+    console.log(text);
+    return handlerInput.responseBuilder
       .speak(text)
       .getResponse();
-    })
   }
 }
 
@@ -67,13 +63,12 @@ const TramIntent = {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
         && Alexa.getIntentName(handlerInput.requestEnvelope) === 'TramIntent';
   },
-  handle(handlerInput) {
-    return transportation.getNextTrams().then(text =>  {
-      console.log(text);
-      return handlerInput.responseBuilder
+  async handle(handlerInput) {
+    const text = await transportation.getNextTrams();
+    console.log(text);
+    return handlerInput.responseBuilder
       .speak(text)
       .getResponse();
-    })
   }
 }
 
@@ -82,9 +77,9 @@ const ErrorHandler = {
       return true;
   },
   handle(handlerInput, error) {
-      return handlerInput.responseBuilder
-          .speak('Bug - this intent is unhandled.')
-          .getResponse();
+    return handlerInput.responseBuilder
+      .speak('Bug - this intent is unhandled.')
+      .getResponse();
   }
 };
 
