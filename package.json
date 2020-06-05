@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "ask-sdk": "^2.8.0",
+    "ask-sdk-express-adapter": "^2.1.0",
     "axios": "^0.19.2",
     "dateformat": "^3.0.3",
     "lodash": "^4.17.15"

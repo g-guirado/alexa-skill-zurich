@@ -1,4 +1,6 @@
 const Alexa = require('ask-sdk');
+const { TimestampVerifier } = require('ask-sdk-express-adapter');
+
 const transportation = require('./transportation');
 const money = require('./money');
 const movies = require('./movie');
@@ -83,6 +85,19 @@ const ErrorHandler = {
   }
 };
 
+const skillBuilder = Alexa.SkillBuilders.custom()
+.addRequestHandlers(ExchangeRateIntent,
+  MovieIntent,
+  BikeIntent,
+  TrainIntent,
+  TramIntent)
+.addErrorHandler(ErrorHandler)
+
+// AWS Lambda
+exports.alexaSkill = skillBuilder.lambda();
+
+const skill = skillBuilder.create();
+
 /**
  * Google Cloud Function
  * Responds to any HTTP request that can provide a "message" field in the body.
@@ -90,11 +105,17 @@ const ErrorHandler = {
  * @param {!Object} req Cloud Function request context.
  * @param {!Object} res Cloud Function response context.
  */
-exports.alexaSkill = Alexa.SkillBuilders.custom()
-    .addRequestHandlers(ExchangeRateIntent,
-      MovieIntent,
-      BikeIntent,
-      TrainIntent,
-      TramIntent)
-    .addErrorHandler(ErrorHandler)
-    .lambda();
+exports.gcloudSkill = async (req, res) => {
+  try {
+    const textBody = JSON.stringify(req.body);
+    await new TimestampVerifier().verify(textBody);
+  } catch (err) {
+    // server return err message
+    console.log(err)
+    res.status(400).send('Bad Request')
+    return
+  }
+
+  const response = await skill.invoke(req.body)
+  res.send(response);
+}
