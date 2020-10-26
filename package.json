@@ -12,7 +12,7 @@
   "dependencies": {
     "ask-sdk": "^2.10.0",
     "ask-sdk-express-adapter": "^2.1.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.0",
     "dateformat": "^3.0.3",
     "lodash": "^4.17.20"
   }
