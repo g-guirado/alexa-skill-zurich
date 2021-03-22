@@ -10,7 +10,7 @@
   "author": "Guillaume Guirado",
   "license": "ISC",
   "dependencies": {
-    "ask-sdk": "^2.10.0",
+    "ask-sdk": "^2.10.2",
     "ask-sdk-express-adapter": "^2.10.0",
     "axios": "^0.21.1",
     "dateformat": "^4.3.1",
