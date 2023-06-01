@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@coolaj86/urequest@^1.3.6":
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/@coolaj86/urequest/-/urequest-1.3.7.tgz#66a1d66378dd6534e9c8e68948bf09acf32bab77"
-  integrity sha512-PPrVYra9aWvZjSCKl/x1pJ9ZpXda1652oJrPBYy5rQumJJMkmTBN3ux+sK2xAUwVvv2wnewDlaQaHLxLwSHnIA==
-
 ask-sdk-core@^2.14.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.14.0.tgz#85fce330b513fdb6c3827f47f0795288f2ca96d6"
@@ -21,14 +16,14 @@ ask-sdk-dynamodb-persistence-adapter@^2.14.0:
   dependencies:
     aws-sdk "^2.163.0"
 
-ask-sdk-express-adapter@^2.10.0:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/ask-sdk-express-adapter/-/ask-sdk-express-adapter-2.10.0.tgz#07ca82b57927752303ad470678ab0d3a4dcb6a36"
-  integrity sha512-Jf7M/th4q5nMunBHk+bp6jL034r+PC1HSzt6mOaDmacAI1e4zHBqPVVKVq0n/XcDKgDOVqkBAJtKKjARrw+qww==
+ask-sdk-express-adapter@^2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/ask-sdk-express-adapter/-/ask-sdk-express-adapter-2.14.0.tgz#510d00163302bbc8e47880ff644a945dc1c26368"
+  integrity sha512-F4mNK1/z0opcqe6Kz5n2SR06U3pjyGka6HaTOXYuzQ9jDu5xJ71w4ws0wPgYWMq+Yp0HGvW8XaLSdzoyGCsb8w==
   dependencies:
     body-parser "^1.18.2"
-    node-forge "^0.10.0"
-    ssl-root-cas "^1.3.1"
+    node-forge "^1.3.0"
+    semver "^7.3.4"
 
 ask-sdk-model@^1.29.0:
   version "1.29.0"
@@ -213,6 +208,13 @@ lodash@^4.17.21:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
+lru-cache@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
+  integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
+  dependencies:
+    yallist "^4.0.0"
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
@@ -247,10 +249,10 @@ ms@2.0.0:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
   integrity sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=
 
-node-forge@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
-  integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
+node-forge@^1.3.0:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.3.1.tgz#be8da2af243b2417d5f646a770663a92b7e9ded3"
+  integrity sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==
 
 on-finished@~2.3.0:
   version "2.3.0"
@@ -299,17 +301,17 @@ sax@>=0.6.0:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
+semver@^7.3.4:
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.1.tgz#c90c4d631cf74720e46b21c1d37ea07edfab91ec"
+  integrity sha512-Wvss5ivl8TMRZXXESstBA4uR5iXgEN/VC5/sOcuXdVLzcdkz4HWetIoRfG5gb5X+ij/G9rw9YoGn3QoQ8OCSpw==
+  dependencies:
+    lru-cache "^6.0.0"
+
 setprototypeof@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.1.tgz#7e95acb24aa92f5885e0abef5ba131330d4ae683"
   integrity sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
-
-ssl-root-cas@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/ssl-root-cas/-/ssl-root-cas-1.3.1.tgz#6b0566f7de4f0e6be99fbd93dbfbe5c7ab33b949"
-  integrity sha512-KR8J210Wfvjh+iNE9jcQEgbG0VG2713PHreItx6aNCPnkFO8XChz1cJ4iuCGeBj0+8wukLmgHgJqX+O5kRjPkQ==
-  dependencies:
-    "@coolaj86/urequest" "^1.3.6"
 
 "statuses@>= 1.5.0 < 2":
   version "1.5.0"
@@ -359,3 +361,8 @@ xmlbuilder@~9.0.1:
   version "9.0.7"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
   integrity sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
+
+yallist@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
+  integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
