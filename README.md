@@ -1,5 +1,7 @@
 # Alexa Skill
 
+**This is no longer maintained and is likely not working anymore.**
+
 My own Alexa skills I can use daily.
 I run them using Google Cloud Functions.
 
