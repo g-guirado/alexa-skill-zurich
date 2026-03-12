@@ -11,8 +11,8 @@
  * permissions and limitations under the License.
  */
 
-const net = require('net');
-const fs = require('fs');
+import net from 'net';
+import fs from 'fs';
 
 const localDebugger = net.createServer();
 
@@ -22,13 +22,17 @@ const DEFAULT_HANDLER_NAME = 'handler';
 const HOST_NAME = 'localhost';
 const DEFAULT_PORT = 0;
 
+type LambdaCallback = (err: Error | null, result: unknown) => void;
+type LambdaHandler = (event: unknown, context: unknown, callback: LambdaCallback) => void;
+type SkillInvoker = Record<string, LambdaHandler>;
+
 /**
  * Resolves the skill invoker class dependency from the user provided
  * skill entry file.
  */
 
-// eslint-disable-next-line import/no-dynamic-require
-const skillInvoker = require(getAndValidateSkillInvokerFile());
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const skillInvoker = require(getAndValidateSkillInvokerFile()) as SkillInvoker;
 const portNumber = getAndValidatePortNumber();
 const lambdaHandlerName = getLambdaHandlerName();
 
@@ -37,7 +41,9 @@ const lambdaHandlerName = getLambdaHandlerName();
  */
 
 localDebugger.listen(portNumber, HOST_NAME, () => {
-    console.log(`Starting server on port: ${localDebugger.address().port}.`);
+    const addr = localDebugger.address();
+    const port = addr !== null && typeof addr !== 'string' ? addr.port : portNumber;
+    console.log(`Starting server on port: ${port}.`);
 });
 
 /**
@@ -52,10 +58,11 @@ localDebugger.listen(portNumber, HOST_NAME, () => {
 localDebugger.on('connection', (socket) => {
     console.log(`Connection from: ${socket.remoteAddress}:${socket.remotePort}`);
     socket.on('data', (data) => {
-        const body = JSON.parse(data.toString().split(HTTP_BODY_DELIMITER).pop());
+        const parts = data.toString().split(HTTP_BODY_DELIMITER);
+        const body = JSON.parse(parts[parts.length - 1]) as unknown;
         console.log(`Request envelope: ${JSON.stringify(body)}`);
-        skillInvoker[lambdaHandlerName](body, null, (_invokeErr, response) => {
-            response = JSON.stringify(response);
+        skillInvoker[lambdaHandlerName](body, null, (_invokeErr, result) => {
+            const response = JSON.stringify(result);
             console.log(`Response envelope: ${response}`);
             socket.write(`HTTP/1.1 200 OK${HTTP_HEADER_DELIMITER}Content-Type: application/json;charset=UTF-8${HTTP_HEADER_DELIMITER}Content-Length: ${response.length}${HTTP_BODY_DELIMITER}${response}`);
         });
@@ -67,7 +74,7 @@ localDebugger.on('connection', (socket) => {
  * Defaults to 0.
  */
 
-function getAndValidatePortNumber() {
+function getAndValidatePortNumber(): number {
     const portNumberArgument = Number(getArgument('portNumber', DEFAULT_PORT));
     if (!Number.isInteger(portNumberArgument)) {
         throw new Error(`Port number has to be an integer - ${portNumberArgument}.`);
@@ -87,8 +94,8 @@ function getAndValidatePortNumber() {
  * Defaults to "handler".
  */
 
-function getLambdaHandlerName() {
-    return getArgument('lambdaHandler', DEFAULT_HANDLER_NAME);
+function getLambdaHandlerName(): string {
+    return String(getArgument('lambdaHandler', DEFAULT_HANDLER_NAME));
 }
 
 /**
@@ -96,9 +103,8 @@ function getLambdaHandlerName() {
  * This is a required field.
  */
 
-// eslint-disable-next-line consistent-return
-function getAndValidateSkillInvokerFile() {
-    const fileNameArgument = getArgument('skillEntryFile');
+function getAndValidateSkillInvokerFile(): string {
+    const fileNameArgument = String(getArgument('skillEntryFile'));
     if (!fs.existsSync(fileNameArgument)) {
         throw new Error(`File not found: ${fileNameArgument}`);
     }
@@ -107,11 +113,11 @@ function getAndValidateSkillInvokerFile() {
 
 /**
  * Helper function to fetch the value for a given argument
- * @param {argumentName} argumentName name of the argument for which the value needs to be fetched
- * @param {defaultValue} defaultValue default value of the argument that is returned if the value doesn't exist
+ * @param argumentName name of the argument for which the value needs to be fetched
+ * @param defaultValue default value of the argument that is returned if the value doesn't exist
  */
 
-function getArgument(argumentName, defaultValue) {
+function getArgument(argumentName: string, defaultValue?: string | number): string | number {
     const index = process.argv.indexOf(`--${argumentName}`);
     if (index === -1 || typeof process.argv[index + 1] === 'undefined') {
         if (defaultValue === undefined) {

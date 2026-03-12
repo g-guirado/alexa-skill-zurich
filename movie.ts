@@ -1,21 +1,34 @@
-const axios = require('axios');
-const _ = require('lodash');
-const dateFormat = require('dateformat');
+import axios from 'axios';
+import _ from 'lodash';
+import dateFormat from 'dateformat';
 
-async function getMovies() {
+interface MovieDetails {
+  movie: boolean;
+  cinemas: string[];
+}
+
+interface TodayMovies {
+  [movieName: string]: MovieDetails;
+}
+
+interface MoviesApiResponse {
+  [date: string]: TodayMovies;
+}
+
+export async function getMovies(): Promise<string | undefined> {
   const now = new Date();
-  const date = dateFormat(now, "yyyymmdd");
+  const date = dateFormat(now, 'yyyymmdd');
 
   const url = `https://www.kitag.com/api/movies/?number_days=1&start=${date}`;
 
   console.log(`Fetching ${url}`);
 
   try {
-    const res = await axios(url)
-    console.log(res.data)
+    const res = await axios.get<MoviesApiResponse>(url);
+    console.log(res.data);
     const todayMovies = res.data[date];
-    const matchingMovies = [];
-    for (movieName in todayMovies) {
+    const matchingMovies: string[] = [];
+    for (const movieName in todayMovies) {
       const movieDetails = todayMovies[movieName];
 
       if (movieDetails.movie && _.includes(movieDetails.cinemas, 'abaton')) { // Interested in movies at Abaton only
@@ -32,13 +45,11 @@ async function getMovies() {
       fullText += `${m}; `;
     });
     return `Found ${matchingMovies.length} movies at Abaton: ${fullText}`;
-  } catch(e) {
+  } catch (e) {
     console.log('Got an exception :-(');
     console.log(e);
-    console.log(e.response);
+    if (axios.isAxiosError(e)) {
+      console.log(e.response);
+    }
   }
-}
-
-module.exports = {
-  getMovies
 }

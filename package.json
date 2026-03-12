@@ -2,9 +2,10 @@
   "name": "alexa-home",
   "version": "1.0.0",
   "description": "My own Alexa skill for daily use",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "debug": "node local-debugger.js --portNumber 3001 --skillEntryFile ./index.js --lambdaHandler alexaSkill",
+    "build": "tsc",
+    "debug": "ts-node local-debugger.ts --portNumber 3001 --skillEntryFile ./index.ts --lambdaHandler alexaSkill",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Guillaume Guirado",
@@ -15,5 +16,11 @@
     "axios": "^0.28.0",
     "dateformat": "^5.0.3",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.24",
+    "@types/node": "^25.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

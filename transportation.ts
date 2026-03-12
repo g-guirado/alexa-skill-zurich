@@ -1,26 +1,46 @@
-const axios = require('axios');
-const _ = require('lodash');
+import axios from 'axios';
+import _ from 'lodash';
 
-async function checkAvailableBikes() {
+interface Vehicle {
+  type: {
+    id: number;
+  };
+}
+
+interface PublibikeStation {
+  vehicles: Vehicle[];
+}
+
+interface Connection {
+  from: {
+    departure: string;
+    platform?: string;
+  };
+}
+
+interface ConnectionsResponse {
+  connections: Connection[];
+}
+
+export async function checkAvailableBikes(): Promise<string> {
   const publibikeStation = '149';
   // The API is at https://api.publibike.ch/v1/public/stations/<station>
   const publibikeApi = `https://api.publibike.ch/v1/public/stations/${publibikeStation}/`;
 
   try {
-    const publibikeResults = await axios(publibikeApi)
+    const publibikeResults = await axios.get<PublibikeStation>(publibikeApi);
     console.log(publibikeResults);
     const bikes = publibikeResults.data.vehicles;
     if (bikes === undefined || bikes.length === 0) {
       return 'There are no available bikes';
     }
 
-    var nBikes = 0;
-    var nEbikes = 0;
+    let nBikes = 0;
+    let nEbikes = 0;
     _.forEach(bikes, b => {
       if (b.type.id === 1) {
         ++nBikes;
-      }
-      else if (b.type.id === 2) {
+      } else if (b.type.id === 2) {
         ++nEbikes;
       }
     });
@@ -28,15 +48,23 @@ async function checkAvailableBikes() {
       return `There are only normal bikes waiting: ${nBikes} of them.`;
     }
     return `There are ${nEbikes} E-Bikes and ${nBikes} normal bikes waiting.`;
-  }
-  catch(e) {
-    console.log(e.response);
+  } catch (e) {
+    if (axios.isAxiosError(e)) {
+      console.log(e.response);
+    }
     return 'Publibike returned an error!';
   }
 }
 
-async function getNextPublicTransportation(departureStation, arrivalStation, timeBufferInMin, transitName) {
-  const opendataResults = await axios(`https://transport.opendata.ch/v1/connections?from=${departureStation}&to=${arrivalStation}&direct=1&fields[]=connections/from/departure&fields[]=connections/from/platform&limit=10`)
+async function getNextPublicTransportation(
+  departureStation: number,
+  arrivalStation: number,
+  timeBufferInMin: number,
+  transitName: string
+): Promise<string> {
+  const opendataResults = await axios.get<ConnectionsResponse>(
+    `https://transport.opendata.ch/v1/connections?from=${departureStation}&to=${arrivalStation}&direct=1&fields[]=connections/from/departure&fields[]=connections/from/platform&limit=10`
+  );
   console.log(`Number of fetched connections: ${opendataResults.data.connections.length}`);
 
   // Find trains I can reach (i.e. check timeBufferInMin)
@@ -46,42 +74,35 @@ async function getNextPublicTransportation(departureStation, arrivalStation, tim
     whenICanBeThere.setMinutes(whenICanBeThere.getMinutes() + timeBufferInMin);
 
     return departure.getTime() >= whenICanBeThere.getTime();
-  } );
+  });
 
   const firstReachableTrains = _.slice(nextReachableTrains, 0, 3); // only keep the next 3 reachable trains
   console.log(`Number of reachable connections: ${nextReachableTrains.length}`);
 
   // For every train left, compute left time and create corresponding text for Alexa
-  var text = `Next ${transitName}: `;
+  let text = `Next ${transitName}: `;
   _.forEach(firstReachableTrains, t => {
     const diffMs = new Date(t.from.departure).getTime() - new Date().getTime();
     const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
 
     if (t.from.platform) {
       text += `in ${diffMins} minutes from platform ${t.from.platform}, `;
-    }
-    else {
+    } else {
       text += `in ${diffMins} minutes, `;
     }
   });
 
   return text;
-} 
+}
 
-async function getNextTrains() {
+export async function getNextTrains(): Promise<string> {
   const departureStation = 8503001; // Zurich Altstetten
   const arrivalStation = 8503000; // Zurich HB
   return getNextPublicTransportation(departureStation, arrivalStation, 6, 'trains');
 }
 
-async function getNextTrams() {
+export async function getNextTrams(): Promise<string> {
   const departureStation = 8591057; // Zurich Altstetten Bhf Nord
   const arrivalStation = 8594239; // Zurich Schiffbau
   return getNextPublicTransportation(departureStation, arrivalStation, 3, 'trams');
-}
-
-module.exports = {
-  checkAvailableBikes,
-  getNextTrains,
-  getNextTrams
 }
