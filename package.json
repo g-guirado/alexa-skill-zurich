@@ -11,8 +11,9 @@
   "author": "Guillaume Guirado",
   "license": "ISC",
   "dependencies": {
-    "ask-sdk": "^2.14.0",
+    "ask-sdk-core": "^2.14.0",
     "ask-sdk-express-adapter": "^2.14.0",
+    "ask-sdk-model": "^1.29.0",
     "axios": "^1.13.6",
     "dateformat": "^5.0.3",
     "lodash": "^4.17.23"

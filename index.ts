@@ -1,4 +1,4 @@
-import * as Alexa from 'ask-sdk';
+import * as Alexa from 'ask-sdk-core';
 import { TimestampVerifier } from 'ask-sdk-express-adapter';
 import { RequestHandler, ErrorHandler, HandlerInput } from 'ask-sdk-core';
 import { RequestEnvelope, ResponseEnvelope } from 'ask-sdk-model';
