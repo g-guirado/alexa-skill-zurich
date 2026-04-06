@@ -16,7 +16,7 @@
     "ask-sdk-model": "^1.29.0",
     "axios": "^1.13.6",
     "dateformat": "^5.0.3",
-    "lodash": "^4.17.23"
+    "lodash": "^4.18.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.24",
